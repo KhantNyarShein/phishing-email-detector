@@ -100,6 +100,7 @@ def home():
     result = ""
     suspicious_urls = []
     suspicious_words = []
+    ip_urls = []
     text_score = 0
     url_score = 0
     keyword_score = 0
