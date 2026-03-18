@@ -2,7 +2,7 @@
 <html>
 <head>
 
-<title>Phishing Detection System</title>
+<title>Phishing Detection Dashboard</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -11,7 +11,7 @@
 <style>
 
 body{
-background:#0f172a;
+background: linear-gradient(135deg, #0f172a, #020617);
 color:white;
 font-family: 'Segoe UI', sans-serif;
 }
@@ -21,15 +21,16 @@ max-width:900px;
 margin:auto;
 margin-top:50px;
 padding:30px;
-background:#1e293b;
+background: rgba(30,41,59,0.9);
 border-radius:15px;
-box-shadow:0 0 20px rgba(0,255,255,0.2);
+box-shadow:0 0 25px rgba(0,255,255,0.2);
 }
 
 textarea{
-background:#0f172a;
+background:#020617;
 color:white;
 border:1px solid #334155;
+border-radius:10px;
 }
 
 textarea::placeholder{
@@ -51,6 +52,7 @@ padding:15px;
 border-radius:10px;
 text-align:center;
 font-weight:bold;
+font-size:18px;
 }
 
 .safe{
@@ -61,24 +63,20 @@ background:#16a34a;
 background:#dc2626;
 }
 
-.score-card{
-background:#0f172a;
-padding:15px;
+.progress{
+height:22px;
 border-radius:10px;
-text-align:center;
-border:1px solid #334155;
+background:#1e293b;
+overflow:hidden;
 }
 
-.high{
-color:#ef4444;
+.progress-bar{
+font-weight:bold;
+transition: width 1s ease-in-out;
 }
 
-.medium{
-color:#f59e0b;
-}
-
-.low{
-color:#22c55e;
+.glow{
+box-shadow:0 0 10px rgba(0,255,255,0.5);
 }
 
 ul{
@@ -107,7 +105,7 @@ placeholder="Paste email content here..."
 required></textarea>
 
 <div class="text-center mt-3">
-<button class="btn btn-analyze btn-lg">Analyze</button>
+<button class="btn btn-analyze btn-lg glow">Analyze</button>
 </div>
 
 </form>
@@ -126,38 +124,40 @@ required></textarea>
 
 <h4 class="text-center mt-4">📊 Risk Analysis</h4>
 
-<div class="row g-3 mt-2">
+<div class="mt-3">
 
-<div class="col-md-3">
-<div class="score-card">
-Text Risk<br>{{ text_score }}%
-</div>
-</div>
-
-<div class="col-md-3">
-<div class="score-card">
-URL Risk<br>{{ url_score }}%
-</div>
+<p>Text Risk</p>
+<div class="progress mb-3 glow">
+  <div class="progress-bar bg-primary" style="width: {{ text_score }}%">
+    {{ text_score }}%
+  </div>
 </div>
 
-<div class="col-md-3">
-<div class="score-card">
-Keyword Risk<br>{{ keyword_score }}%
-</div>
-</div>
-
-<div class="col-md-3">
-<div class="score-card">
-Final Risk<br>{{ final_score }}%
-</div>
+<p>URL Risk</p>
+<div class="progress mb-3 glow">
+  <div class="progress-bar bg-success" style="width: {{ url_score }}%">
+    {{ url_score }}%
+  </div>
 </div>
 
+<p>Keyword Risk</p>
+<div class="progress mb-3 glow">
+  <div class="progress-bar bg-info" style="width: {{ keyword_score }}%">
+    {{ keyword_score }}%
+  </div>
+</div>
+
+<p>Final Risk</p>
+<div class="progress mb-3 glow">
+  <div class="progress-bar bg-danger" style="width: {{ final_score }}%">
+    {{ final_score }}%
+  </div>
 </div>
 
 <h3 class="text-center mt-3 
-{% if 'HIGH' in risk_level %}high
-{% elif 'MEDIUM' in risk_level %}medium
-{% else %}low{% endif %}">
+{% if 'HIGH' in risk_level %}text-danger
+{% elif 'MEDIUM' in risk_level %}text-warning
+{% else %}text-success{% endif %}">
 {{ risk_level }}
 </h3>
 
